@@ -1,0 +1,74 @@
+<html> 
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="employee-input.js"></script>
+    <script>
+      $(document).ready(function ()  {
+        populateStates();
+      });
+    </script>
+    <script>
+      $(document).ready(function ()  {
+        $("#phoneNumber").keydown(function (e) {
+          if (e.key == "Backspace") {
+            var phoneInput = $("#phoneNumber");
+            var phoneNumberText = phoneInput.val();
+            if (phoneNumberText.length == 4 || phoneNumberText.length == 8) {
+              phoneInput.val(phoneNumberText.substring(0, phoneNumberText.length-1))
+            }
+          }
+        });
+        $("#phoneNumber").on('change paste input', function() {
+          formatPhoneNumber();
+        })
+      });
+    </script>
+    <script>
+      function handleSubmit(event)
+      {
+        validateInput();
+
+        //$("input").prop('disabled', true);
+        //$("select").prop('disabled', true);
+        $("form#employeeInfoForm :input").each(function() {
+          var input = $(this);
+          console.log(input.val());
+        })
+
+        var json = jsonify();
+        submitRequest(json);
+        // .hover for errors?
+      }
+    </script>
+    <title>Employee Information Portal</title> 
+  </head>
+
+  <body> 
+    <h1>Input the employee's information in the following fields.</h1>
+  </body>
+
+  <form id="employeeInfoForm" action="JavaScript:handleSubmit()">
+    <label for="employeeName">Employee Name:</label></br>
+    <input type="text" name ="employeeName" id="employeeName" required></br>
+    <label for="employeeNumber">Employee Number:</label></br>
+    <input type="text" name="employeeNumber" id="employeeNumber" required></br>
+    <label for="phoneNumber">Phone Number:</label></br>
+    <input type="tel" name="phoneNumber" id="phoneNumber" required></br>
+    <label for="address">Address:</label></br>
+    <input type="text" name="address" id="address" required></br>
+    <label for="city">City:</label></br>
+    <input type="text" name="address" id="city" required></br>
+    <label for="state">State:</label></br>
+    <select id="state" name="state" required> </select> </br>
+    <label for="zipCode">Zip Code:</label></br>
+    <input type="text" name="zipCode" id="zipCode" required></br>
+    <label for="isCurrentEmployee">Current Employee:</label></br>
+    <input type="checkbox" name="isCurrentEmployee" id="isCurrentEmployee"></br></br>
+
+    <input type="submit" value="Submit">
+  </form>
+  <div name="submitStatusText" id="submitStatusText">
+    
+  </div>
+</html>

@@ -55,7 +55,7 @@ function populateStates() {
     var stateSelector = $("#state");
     $("#state").append($('<option>', {
         value: "",
-        text: ""
+        text: "Choose a state"
     }));
     $.each(states, function (i, item) {
         $("#state").append($('<option>', {
@@ -66,9 +66,7 @@ function populateStates() {
 }
 
 function validateInput() {
-    console.log("Validating...");
-    // It is assumed that all fields are required (which is handled in the HTML automatically), but 
-    // any additional front-end validation on the fields could be handled here. 
+    // See README-note 3 for some thoughts.
 }
 
 function formatPhoneNumber() {
@@ -82,12 +80,12 @@ function formatPhoneNumber() {
         phoneNumberInput.val(phoneText.slice(0,3) + '-' + phoneText.slice(3));
     } else { 
         phoneNumberInput.val(phoneText);
-    }
-    
-    console.log(phoneNumberInput.val());
+    }    
 }
 
+/* Any pre-processing to our inputs can occur or be managed here. */
 function formatInputForSubmission() {
+    /* Currently just removing the pre-formatted hyphens from phone number */
     var phone = $("input[name='phoneNumber']");
     phone.val(phone.val().replaceAll('-', ''));
 }
@@ -96,6 +94,7 @@ function jsonify() {
     var json = $("#employeeInfoForm").serializeArray();
 
     var result_json = {};
+    /* See README-Note 4 for a brief note on this */
     $.each(json, function() {
         result_json[this.name] = this.value;
     });
@@ -104,20 +103,20 @@ function jsonify() {
 }
 
 function submitRequest(json) {
+    /* Since we don't have an endpoint to actually hit, we'll console.log the json
+    here for good measure. It can also be viewed via the Inspect browser tools. */
     console.log(json);
     $.post({
-        url: "./mock-url", 
+        url: "./mock-url",
         data: json,
+        /* See README-Note 5 for discussion */
         success: function (result_data) {
-            $("#employeeInfoForm").find('input:text, [type="tel"], select').val('');
-            $("#employeeInfoForm").find('input:checkbox').prop('checked', false);
-            $('#submitStatusText').text("Success! Employee data submitted.");
+            $('#submitStatusText').text("Failure! Employee data had errors.");
         },
         error: function (result, status, error) {
             $("#employeeInfoForm").find('input:text, [type="tel"], select').val('');
             $("#employeeInfoForm").find('input:checkbox').prop('checked', false);
             $('#submitStatusText').text("Success! Employee data submitted.");
-            // 
         }
     });
 }

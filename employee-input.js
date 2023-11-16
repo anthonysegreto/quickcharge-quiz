@@ -67,30 +67,29 @@ function populateStates() {
 
 function validateInput() {
     console.log("Validating...");
-    $("form#employeeInfoForm :input").each(function() {
-        var input = $(this);
-        /*if (input.checkValidity()) {
-            input.hide();
-        }*/
-    });
+    // It is assumed that all fields are required (which is handled in the HTML automatically), but 
+    // any additional front-end validation on the fields could be handled here. 
 }
 
 function formatPhoneNumber() {
-    // TODO - backspaces for -
-    // TODO - Parens for area code? or nah
     var phoneNumberInput = $("#phoneNumber");
-    var phoneText = phoneNumberInput[0].value;
+    var phoneText = phoneNumberInput.val();
+    phoneText = phoneText.replaceAll(/\D+/g, '');
     phoneText = phoneText.replaceAll('-', '');
-    if (phoneText === '') {
-        return;
-    }
     if (phoneText.length >= 6) {
-        phoneNumberInput[0].value = phoneText.slice(0,3) + '-' + phoneText.slice(3,6) + '-' + phoneText.slice(6);
+        phoneNumberInput.val(phoneText.slice(0,3) + '-' + phoneText.slice(3,6) + '-' + phoneText.slice(6));
     } else if (phoneText.length >= 3) {
-        phoneNumberInput[0].value = phoneText.slice(0,3) + '-' + phoneText.slice(3);
+        phoneNumberInput.val(phoneText.slice(0,3) + '-' + phoneText.slice(3));
+    } else { 
+        phoneNumberInput.val(phoneText);
     }
     
-    console.log(phoneNumberInput[0].value);
+    console.log(phoneNumberInput.val());
+}
+
+function formatInputForSubmission() {
+    var phone = $("input[name='phoneNumber']");
+    phone.val(phone.val().replaceAll('-', ''));
 }
 
 function jsonify() {
@@ -106,20 +105,19 @@ function jsonify() {
 
 function submitRequest(json) {
     console.log(json);
-    //var headers = new Headers();
-    //headers.append()
     $.post({
         url: "./mock-url", 
         data: json,
         success: function (result_data) {
-            $("input").val('');
-            $("select").trigger('reset');
-            $('#submitStatusText').text("Error! There were problems with your submission.");
+            $("#employeeInfoForm").find('input:text, [type="tel"], select').val('');
+            $("#employeeInfoForm").find('input:checkbox').prop('checked', false);
+            $('#submitStatusText').text("Success! Employee data submitted.");
         },
         error: function (result, status, error) {
             $("#employeeInfoForm").find('input:text, [type="tel"], select').val('');
-            $("#employeeInfoForm").find('input:checkbox').removeAttr('checked').removeAttr('selected');
+            $("#employeeInfoForm").find('input:checkbox').prop('checked', false);
             $('#submitStatusText').text("Success! Employee data submitted.");
+            // 
         }
     });
 }

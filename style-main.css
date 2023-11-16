@@ -1,0 +1,65 @@
+body {
+    display: block;
+    font: 100% Verdana;
+}
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    color: #d14836;
+}
+
+input[type=text],[type=tel], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+input[type=checkbox] {
+    width: 20%;
+    
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+.label {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+  
+.field {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .label, .field, input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+}

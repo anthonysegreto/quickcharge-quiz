@@ -1,5 +1,7 @@
 <html> 
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style-main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
     <script src="employee-input.js"></script>
@@ -11,7 +13,7 @@
     <script>
       $(document).ready(function ()  {
         $("#phoneNumber").keydown(function (e) {
-          if (e.key == "Backspace") {
+          if (e.key == "Backspace") { //TODO - if "xxx-" or "xxx-xxx-", highlight all, backspace, only 1 char will be deleted
             var phoneInput = $("#phoneNumber");
             var phoneNumberText = phoneInput.val();
             if (phoneNumberText.length == 4 || phoneNumberText.length == 8) {
@@ -29,13 +31,12 @@
       {
         validateInput();
 
-        //$("input").prop('disabled', true);
-        //$("select").prop('disabled', true);
         $("form#employeeInfoForm :input").each(function() {
           var input = $(this);
           console.log(input.val());
         })
 
+        formatInputForSubmission();
         var json = jsonify();
         submitRequest(json);
         // .hover for errors?
@@ -46,29 +47,81 @@
 
   <body> 
     <h1>Input the employee's information in the following fields.</h1>
-  </body>
+  
+  <div class="container">
+    <form id="employeeInfoForm" action="JavaScript:handleSubmit()">
+      <div class="row">
+        <div class="label">
+          <label for="employeeName">Employee Name:</label>
+        </div>
+        <div class="field">
+          <input type="text" name ="employeeName" id="employeeName" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="employeeNumber">Employee Number:</label>
+        </div>
+        <div class="field">
+          <input type="text" name="employeeNumber" id="employeeNumber" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="phoneNumber">Phone Number:</label>
+        </div>
+        <div class="field">
+          <input type="tel" name="phoneNumber" id="phoneNumber" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="address">Address:</label>
+        </div>
+        <div class="field">
+          <input type="text" name="address" id="address" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="city">City:</label>
+        </div>
+        <div class="field">
+          <input type="text" name="address" id="city" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="state">State:</label>
+        </div>
+        <div class="field">
+          <select id="state" name="state" required> </select> 
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="zipCode">Zip Code:</label>
+        </div>
+        <div class="field">
+          <input type="text" name="zipCode" id="zipCode" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">
+          <label for="isCurrentEmployee">Current Employee:</label>
+        </div>
+        <div class="field">
+          <input type="checkbox" name="isCurrentEmployee" id="isCurrentEmployee">
+        </div>
+      </div>
 
-  <form id="employeeInfoForm" action="JavaScript:handleSubmit()">
-    <label for="employeeName">Employee Name:</label></br>
-    <input type="text" name ="employeeName" id="employeeName" required></br>
-    <label for="employeeNumber">Employee Number:</label></br>
-    <input type="text" name="employeeNumber" id="employeeNumber" required></br>
-    <label for="phoneNumber">Phone Number:</label></br>
-    <input type="tel" name="phoneNumber" id="phoneNumber" required></br>
-    <label for="address">Address:</label></br>
-    <input type="text" name="address" id="address" required></br>
-    <label for="city">City:</label></br>
-    <input type="text" name="address" id="city" required></br>
-    <label for="state">State:</label></br>
-    <select id="state" name="state" required> </select> </br>
-    <label for="zipCode">Zip Code:</label></br>
-    <input type="text" name="zipCode" id="zipCode" required></br>
-    <label for="isCurrentEmployee">Current Employee:</label></br>
-    <input type="checkbox" name="isCurrentEmployee" id="isCurrentEmployee"></br></br>
-
-    <input type="submit" value="Submit">
-  </form>
-  <div name="submitStatusText" id="submitStatusText">
-    
+      <input type="submit" value="Submit">
+    </form>
+    <div name="submitStatusText" id="submitStatusText">
+      
   </div>
+
+</div>
+
+</body>
 </html>

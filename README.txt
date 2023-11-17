@@ -1,3 +1,11 @@
+HTML / CSS / JS (with jQuery) page to submit a form containing several fields.
+Output to be packaged into JSON and sent to a fictitious URL via HTTP.
+
+Some comments are included in the code itself. For more lengthy notes, a comment
+will be provided indicating a Note Number, which can be found in this file for further detail.
+
+
+
 Note 1:
 This section of code addresses a bug in the auto-formatting of the phone number.
 In short, hyphens are added to the phone number dynamically whenever a change is made.
